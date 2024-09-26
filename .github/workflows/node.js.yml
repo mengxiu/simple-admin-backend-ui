@@ -1,33 +1,24 @@
-name: Node.js CI
+name: Build and Deploy
 
 on:
   push:
-    branches: [master, dev]
-  pull_request:
-    branches: [master, dev]
+    branches:
+      - master
+  workflow_dispatch:
+  repository_dispatch:
+    types: [ship-it]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - run: npm install -g pnpm
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - run: pnpm install
+      - run: pnpm run build
+
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build
+          branch: gh-pages
+          folder: dist
