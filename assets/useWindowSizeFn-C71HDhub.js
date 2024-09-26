@@ -1,0 +1,1 @@
+import{aG as a,an as d,D as u}from"./entry/index-BPNJPE-d-1727367563404.js";function w(i,o={}){const{wait:s=150,immediate:r}=o;let e=()=>{i()};e=u(e,s);const n=()=>{r&&e(),window.addEventListener("resize",e)},t=()=>{window.removeEventListener("resize",e)};return a(()=>{n()}),d(()=>{t()}),{start:n,stop:t}}export{w as u};
